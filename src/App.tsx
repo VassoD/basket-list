@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./App.css";
-import { Cart } from "./Cart";
-import { Product, ProductList } from "./ProductList";
-
+import { Cart } from "./components/Cart";
+import styled from "styled-components";
+import { ProductList } from "./components/ProductList";
+import { Product } from "./types/Product";
 function App() {
   const [showCart, setShowCart] = useState(false);
 
@@ -12,11 +13,6 @@ function App() {
     setShowCart((prev) => !prev);
   };
 
-  //add to cart, new id is being added in the list
-  // const addToCart = (product: Product) => {
-  //   setCart((prev) => [...prev, product]);
-  // };
-  //add to cart, same id but quantity is being added
   const addToCart = (product: Product) => {
     const existingProduct = cart.find((item) => item.id === product.id);
 
@@ -39,15 +35,22 @@ function App() {
 
   return (
     <div className="App">
-      <button onClick={handleCartClick}>
+      <CartButton onClick={handleCartClick}>
         {showCart ? "Close Cart" : "Open Cart"}
-      </button>
-
-      {showCart && <Cart cart={cart} removeFromCart={removeFromCart} />}
-
+      </CartButton>
+      {showCart && <Cart items={cart} removeFromCart={removeFromCart} />}
       <ProductList addToCart={addToCart} />
     </div>
   );
 }
 
 export default App;
+
+const CartButton = styled.button`
+  background-color: lightgray;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 2px lightgray;
+`;
